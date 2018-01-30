@@ -24,7 +24,7 @@ jni JNI_OnLoad(JavaVM* VM, void* reserved){
 #ifdef __cplusplus
 extern "C" {
 #endif
-__attribute__ ((visibility ("default"))) void ijiami(){
+__attribute__ ((visibility ("default"))) void hellojni(){
 #if defined(__arm__)
   #if defined(__ARM_ARCH_7A__)
     #if defined(__ARM_NEON__)
@@ -141,8 +141,8 @@ JNIEXPORT jint JNICALL Java_com_example_encdemo_LoadNative_encrypt(JNIEnv *env, 
         return -1;
     }
     LOGI("here1");
-    fseek(file, 0L, SEEK_END);    /* Ìøµ½ÎÄ¼şÄ©Î² */
-    flen = ftell(file);        /* »ñÈ¡ÎÄ¼ş³¤¶È */
+    fseek(file, 0L, SEEK_END);    /* è·³åˆ°æ–‡ä»¶æœ«å°¾ */
+    flen = ftell(file);        /* è·å–æ–‡ä»¶é•¿åº¦ */
     fseek(file, 0L, SEEK_SET);
     if((fbuf = (unsigned char*)malloc(sizeof(unsigned char) * flen)) == NULL)
     {
@@ -173,8 +173,8 @@ JNIEXPORT jint JNICALL Java_com_example_encdemo_LoadNative_encrypt(JNIEnv *env, 
     LOGI("here4");
     fclose(file);
     encMap(cbuf,clen);
-    //finish = clock();//È¡½áÊøÊ±¼ä
-    //LOGI( "encrypt TIME:%f ms\n",(finish - start) * 1000/ CLOCKS_PER_SEC);//ÒÔÃëÎªµ¥Î»ÏÔÊ¾
+    //finish = clock();//å–ç»“æŸæ—¶é—´
+    //LOGI( "encrypt TIME:%f ms\n",(finish - start) * 1000/ CLOCKS_PER_SEC);//ä»¥ç§’ä¸ºå•ä½æ˜¾ç¤º
     LOGI("here5");
     strcat(fout,".enc");
     LOGI("here6");
@@ -184,9 +184,9 @@ JNIEXPORT jint JNICALL Java_com_example_encdemo_LoadNative_encrypt(JNIEnv *env, 
         return -1;
     }
     LOGI("here7");
-    fwrite(&flen, sizeof(uLong), 1, fileEnc);    /* Ğ´ÈëÔ´ÎÄ¼ş³¤¶È */
+    fwrite(&flen, sizeof(uLong), 1, fileEnc);    /* å†™å…¥æºæ–‡ä»¶é•¿åº¦ */
 
-    fwrite(&clen, sizeof(uLong), 1, fileEnc);    /* Ğ´ÈëÄ¿±êÊı¾İ³¤¶È */
+    fwrite(&clen, sizeof(uLong), 1, fileEnc);    /* å†™å…¥ç›®æ ‡æ•°æ®é•¿åº¦ */
     fwrite(cbuf, sizeof(unsigned char), flen, fileEnc);
     LOGI("here8");
     fclose(fileEnc);
@@ -213,11 +213,11 @@ JNIEXPORT jint JNICALL Java_com_example_encdemo_LoadNative_decrypt(JNIEnv *env, 
         LOGI("Can\'t open %s!\n", path);
         return -1;
     }
-    start = clock();//È¡¿ªÊ¼Ê±¼ä
-    /* ×°ÔØÔ´ÎÄ¼şÊı¾İµ½»º³åÇø */
-    fread(&ulen, sizeof(uLong), 1, file);   /* »ñÈ¡»º³åÇø´óĞ¡ */
-    fread(&flen, sizeof(uLong), 1, file);   /* »ñÈ¡Êı¾İÁ÷´óĞ¡ */
-    if((fbuf = (unsigned char*)malloc(sizeof(unsigned char) * ulen)) == NULL) //ÉêÇëºÍÔ­ÄÚ´æ´óĞ¡ÏàÍ¬µÄ¿Õ¼ä
+    start = clock();//å–å¼€å§‹æ—¶é—´
+    /* è£…è½½æºæ–‡ä»¶æ•°æ®åˆ°ç¼“å†²åŒº */
+    fread(&ulen, sizeof(uLong), 1, file);   /* è·å–ç¼“å†²åŒºå¤§å° */
+    fread(&flen, sizeof(uLong), 1, file);   /* è·å–æ•°æ®æµå¤§å° */
+    if((fbuf = (unsigned char*)malloc(sizeof(unsigned char) * ulen)) == NULL) //ç”³è¯·å’ŒåŸå†…å­˜å¤§å°ç›¸åŒçš„ç©ºé—´
     {
         LOGI("No enough memory1!\n");
         fclose(file);
@@ -242,8 +242,8 @@ JNIEXPORT jint JNICALL Java_com_example_encdemo_LoadNative_decrypt(JNIEnv *env, 
 
     fclose(file);
     memcpy(fbuf, ubuf, ulen);
-    finish = clock();//È¡½áÊøÊ±¼ä
-    LOGI( "decrypt TIME:%f ms\n",(finish - start) * 1000/ CLOCKS_PER_SEC);//ÒÔÃëÎªµ¥Î»ÏÔÊ¾
+    finish = clock();//å–ç»“æŸæ—¶é—´
+    LOGI( "decrypt TIME:%f ms\n",(finish - start) * 1000/ CLOCKS_PER_SEC);//ä»¥ç§’ä¸ºå•ä½æ˜¾ç¤º
     strcat(fout,".dec");
 
     if((fileDec = fopen(fout, "wb")) == NULL)
@@ -251,7 +251,7 @@ JNIEXPORT jint JNICALL Java_com_example_encdemo_LoadNative_decrypt(JNIEnv *env, 
         LOGI("Can\'t create %s!\n", fout);
         return -1;
     }
-    /* ±£´æ½âÑ¹ËõºóµÄÊı¾İµ½Ä¿±êÎÄ¼ş */
+    /* ä¿å­˜è§£å‹ç¼©åçš„æ•°æ®åˆ°ç›®æ ‡æ–‡ä»¶ */
     fwrite(fbuf, sizeof(unsigned char), ulen, fileDec);
     fclose(fileDec);
 
