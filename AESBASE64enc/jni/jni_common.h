@@ -6,7 +6,7 @@
 #define DEBUG 1
 
 #ifndef LOG_TAG
-#define LOG_TAG "myloader"
+#define LOG_TAG "vitest"
 #endif
 
 #if DEBUG
